@@ -17,10 +17,11 @@ class authController {
                 return res.status(400).json({ success: false, message: "Validation error occured", errors })
             }
             const { firstname, lastname, email, password } = req.body
-            if (!AuthService.register(firstname, lastname, email, password))
-                res.json({ success: false, message: 'User did not created' })
+            const isExist = await AuthService.register(firstname, lastname, email, password)
+            if (!isExist)
+                return res.json({ success: false, message: 'User did not created' })
 
-            res.json({ success: true, message: 'User successfully created' })
+            return res.json({ success: true, message: 'User successfully created' })
 
         } catch (error) {
             res.json({ success: false, message: 'Error occured', error: error.message })

@@ -6,7 +6,7 @@ class authService {
         try {
             const match = await User.findOne({ email })
             if (match) {
-                return res.status(400).json({ success: false, message: 'User already exists for this email!' })
+                return false
             }
             const hashedPassword = bcrypt.hashSync(password, 16)
             let user = new User({ firstname, lastname, email, password: hashedPassword })
